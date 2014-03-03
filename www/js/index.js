@@ -33,17 +33,42 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
-    },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', 'https://api.github.com/legacy/repos/search/javascript', true);
+		// Response handlers.
+		xhr.onload = function() {
+			var repos = JSON.parse(xhr.response);
+			var i;
+			var reposHTML = "";
+			// loop through results in the JSON response
+			for (i = 0; i < repos.repositories.length; i++) {
+				reposHTML += "<p><a href='https://github.com/"
+						+ repos.repositories[i].username + "/"
+						+ repos.repositories[i].name + "'>"
+						+ repos.repositories[i].name + "</a><br>"
+						+ repos.repositories[i].description + "</p>";
+			}
+			document.getElementById("allRepos").innerHTML = reposHTML;
+		};
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+		xhr.onerror = function() {
+			alert('error making the request.');
+		};
 
-        console.log('Received Event: ' + id);
-    }
+		xhr.send();
+    	
+    	
+//		app.receivedEvent('deviceready');
+    } //,
+//    // Update DOM on a Received Event
+//    receivedEvent: function(id) {
+//        var parentElement = document.getElementById(id);
+//        var listeningElement = parentElement.querySelector('.listening');
+//        var receivedElement = parentElement.querySelector('.received');
+//
+//        listeningElement.setAttribute('style', 'display:none;');
+//        receivedElement.setAttribute('style', 'display:block;');
+//
+//        console.log('Received Event: ' + id);
+//    }
 };
