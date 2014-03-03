@@ -6,7 +6,7 @@
         id        = "com.mtiede.phonegap.hello-world"
         version   = "1.0.0">
 
-    <name>Hello World (clone)</name>
+    <name>Simple ListView</name>
 
     <description>
         Hello World sample application that responds to the deviceready event.
